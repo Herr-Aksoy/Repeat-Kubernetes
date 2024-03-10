@@ -1,0 +1,165 @@
+##############  14-Ders ==> Kubernetes Livenes, Readiness and Startup Probes  ###########
+
+==> Icerikte Taints and Tolerations  sonra NodeSelector and Node Affinity
+
+
+
+==> Asagidaki kodlar nedir hatirlamiyorum.Kontrol et.
+
+Gardas sistemde Master ile Worker baglantisi yapilmiyor.
+
+==> sudo kubeadm init --pod-network-cidr=172.16.0.0/16 --ignore-preflight-errors=All
+
+komutundan sonra diger sefer
+--- Bu uygulamada Master securty grubunda All TCP acmis olduk. Ona göre ayarlarsin.
+
+
+    1  kubectl get no
+    2  docker --version
+    3  ls /etc/
+    4  ls /etc/sysctl.conf
+    5  cat /etc/sysctl.conf
+    6  cat /etc/docker/daemon.json
+    7  apt-transport-https
+    8  kubectl
+    9  kubectl get no
+   10  history
+   11  kubectl get no
+   12  sudo kubeadm init --pod-network-cidr=172.16.0.0/16 --ignore-preflight-errors=All
+   13  mkdir -p /.kube
+   14  sudo cp -i /etc/kubernetes/admin.conf /.kube/config
+   15  sudo chown 0:0 /.kube/config
+   16  kubectl get no
+   17  pwd
+   18  vi http-liveness.yaml
+   19  cat http-liveness.yaml
+   20  kubectl apply -f http-liveness.yaml
+   21  kubectl get pod
+   22  watch kubectl get po -o wide
+   23  ls -al
+   24  ls
+   25  mv http-liveness.yaml liveness.yaml
+   26  ls
+   27  vi http-liveness.yaml
+   28  docker run -p 80:80 clarusway/probes
+   29  ls
+   30  kubectl apply -f http-liveness.yaml
+   31  kubectl get po
+   32  kubectl describe pod liveness-http
+   33  kubectl get po
+   34  kubectl describe pod liveness-http
+   35  kubectl get po
+   36  kubectl delete -f http-liveness.yaml
+   37  ls
+   38  vi liveness-exec.yaml
+   39  rm -rf liveness.yaml
+   40  ls
+   41  vi tcp-liveness.yaml
+   42  ls
+   43  kubectl apply - tcp-liveness.yaml
+   44  kubectl apply -f tcp-liveness.yaml
+   45  watch kubectl get po
+   46  kubectl delete -f tcp-liveness.yaml
+   47  vi startup.yaml
+   48  docker run -p 80:80 clarusway/startupprobe
+   49  ls
+   50  kubectl delete pod readiness-54bb88d9df-9wx4h
+   51  kubectl get po
+   52  docker container ls
+   53  kubectl decribe pod liveness-tcp
+   54  kubectl describe pod liveness-tcp
+   55  kubectl get po
+   56  vi http-readiness.yaml
+   57  kubectl apply -f  http-readiness.yaml
+   58  kubectl get po
+   59  kubectl get svc
+   60  kubectl get ep
+   61  kubectl describe ep readiness-http
+   62  kubectl get ep
+   63  kubectl describe ep readiness-http
+   64  watch kubectl describe ep readiness-http
+   65  kubectl delete -f  http-readiness.yaml
+   66  vi clarus-deploy.yaml
+   67  kubectl apply -f clarus-deploy.yaml
+   68  kubectl get po -o wide
+   69  kubectl get no
+   70  kubectl edit no kube-master
+   71  kubectl taint nodes kube-master node-role.kubernetes.io/master:NoSchedule-
+   72  kubectl get po -o wide
+   73  ls
+   74  kubectl delete -f clarus-deploy.yaml
+   75  kubectl apply -f clarus-deploy.yaml
+   76  kubectl get po -o wide
+   77  kubectl delete -f .
+   78  kubectl apply -f clarus-deploy.yaml
+   79  kubectl get po -o wide
+   80  kubectl get no
+   81  kubectl edit po kube-master
+   82  kubectl edit no kube-master
+   83  kubectl taint nodes kube-master node-role.kubernetes.io/master:NoSchedule-
+   84  kubectl describe node <nodeName>
+   85  kubectl describe node kube-master
+   86  kubectl taint nodes <nodeName> node-role.kubernetes.io/control-plane-
+   87  kubectl taint nodes kube-master node-role.kubernetes.io/control-plane-
+   88  kubectl delete -f .
+   89  ls
+   90  kubectl apply -f clarus-deploy.yaml
+   91  kubectl get po
+   92  kubectl get po -o wide
+   93  kubectl delete -f .
+   94  vi 2-clarus-deploy.yaml
+   95  ls
+   96  kubectl apply -f 2-clarus-deploy.yaml
+   97  kubectl get po -o wide
+   98  kubectl delete -f .
+   99  kubectl get no
+  100  kubectl describe node kube-master | grep -i taint
+  101  kubectl describe node kube-worker-1 | grep -i taint
+  102  kubectl taint nodes kube-worker-1 clarus=way:NoSchedule
+  103  kubectl describe node kube-worker-1 | grep -i taint
+  104  kubectl apply -f clarus-deploy.yaml
+  105  kubectl get po -o wide
+  106  kubectl delete -f .
+  107  vi 3-clarus-deploy.yaml
+  108  kubectl apply -f 3-clarus-deploy.yaml
+  109  kubectl get po -o wide
+  110  kubectl delete -f .
+  111  kubectl describe no kube-master | grep -i taint
+  112  kubectl describe no kube-worker-1 | grep -i taint
+  113  kubectl label nodes kube-master size=large
+  114  kubectl get no --show-labels
+  115  ls
+  116  kubectl taint nodes kube-worker-1 clarus=way:NoSchedule-
+  117  vi 4-clarus-deploy.yaml
+  118  kubectl apply -f 4-clarus-deploy.yaml
+  119  kubectl get po
+  120  kubectl get po -o wide
+  121  kubectl delete -f .
+  122  ls
+  123  vi 5-clarus-deploy.yaml
+  124  kubectl get no --show-labels
+  125  kubectl apply -f 5-clarus-deploy.yaml
+  126  kubectl get po -o wide
+  127  kubectl edit no kube-master
+  128  kubectl get no --show-labels
+  129  ls
+  130  kubectl delete -f 5-clarus-deploy.yaml
+  131  vi 6-clarus-deploy.yaml
+  132  kubectl apply 6-clarus-deploy.yaml
+  133  kubectl apply -f  6-clarus-deploy.yaml
+  134  kubectl get po -o wide
+  135  kubectl label nodes kube-master site=large
+  136  kubectl label nodes kube-master size=large
+  137  kubectl get po
+  138  kubectl apply 6-clarus-deploy.yaml
+  139  kubectl get po -o wide
+  140  kubectl apply -f 6-clarus-deploy.yaml
+  141  kubectl get po -o wide
+  142  kubectl delete -f 6-clarus-deploy.yaml
+  143  kubectl apply -f 6-clarus-deploy.yaml
+  144  kubectl get po -o wide
+  145  history
+
+scp -i ./ramo.pem ubuntu@ec2-184-73-106-3.compute-1.amazonaws.com:/home/ubuntu/*.yaml /c/Users/Ahmet/Desktop/Tekrar_Kuber
+/14-Ders/yamlFile
+
